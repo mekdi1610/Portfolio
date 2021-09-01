@@ -1,0 +1,38 @@
+RewriteEngine On
+
+ErrorDocument 404 /404.php
+
+ErrorDocument 500 /404
+
+ErrorDocument 403 /Tip
+
+Options -Indexes
+
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteCond %{REQUEST_FILENAME}.php !-f
+
+RewriteRule ^Country.([0-9a-zA-Z-]+) single.php?post=$1 [NC,L]
+
+RewriteRule ^Tip  index.php [NC,L]
+
+RewriteRule ^404  404.php [NC,L]
+
+RewriteRule ^HabAdmin19  signin.php [NC,L]
+
+RewriteRule ^Wins.([0-9a-zA-Z-]+) win.php?m=$1  [NC,L]
+
+RewriteRule ^Sure.([0-9a-zA-Z-]+) sure.php?m=$1  [NC,L]
+
+RewriteRule ^Sureup.([0-9a-zA-Z-]+) sureup.php?m=$1  [NC,L]
+
+
+
+
+RewriteRule ^HabeshaAdminUpload.([0-9a-zA-Z-]+) upload.php?m=$1 [NC,L]
+
+
+<IfModule mod_headers.c>
+Header always append X-frame-option SAMEORIGIN
+</IfModule>
+

@@ -1,0 +1,32 @@
+RewriteEngine On
+
+ErrorDocument 404 /404.php
+
+ErrorDocument 500 /404
+
+ErrorDocument 403 /Tip
+
+Options -Indexes
+
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteCond %{REQUEST_FILENAME}.php !-f
+
+RewriteRule ^Count.([0-9a-zA-Z-]+) single.php?post=$1 [NC,L]
+
+RewriteRule ^Tip  index.php [NC,L]
+
+RewriteRule ^Yesterday  yesterday.php [NC,L]
+
+RewriteRule ^News  news.php [NC,L]
+
+RewriteRule ^Sure  sure.php [NC,L]
+
+RewriteRule ^Contact   contact.php [NC,L]
+
+RewriteRule ^404  404.php [NC,L]
+
+<IfModule mod_headers.c>
+Header always append X-frame-option SAMEORIGIN
+</IfModule>
+

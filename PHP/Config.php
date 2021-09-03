@@ -1,10 +1,11 @@
 <?php  
 //Configration of Database : These information will be changed when it is deployed
 class Config{
-    private $serverName="sql206.epizy.com";
-    private $userName="epiz_25600350";
-    private $password="uEnvNJf3Iv1M0AM";
-    private $database="epiz_25600350_Portfolio";
+    private $serverName="localhost";
+    private $userName="root";
+    private $password="";
+    private $database="Port";
+
     public function getServerName(){
         return $this->serverName;
     }
@@ -18,3 +19,4 @@ class Config{
         return $this->database;
     }
 }
+?>

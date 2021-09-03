@@ -3,10 +3,10 @@ if (!defined('dbconn')) {
 	header("location: index.php");
 }
 /* Database credentials.running MySQL server with default setting (user 'root' with no password) */
-define('DB_SERVER', 'sql206.epizy.coM');
-define('DB_USERNAME', 'epiz_25600350');
-define('DB_PASSWORD', 'uEnvNJf3Iv1M0AM');
-define('DB_NAME', 'epiz_25600350_Portfolio');
+define('DB_SERVER', 'localhost');
+define('DB_USERNAME', 'root');
+define('DB_PASSWORD', '');
+define('DB_NAME', 'Port');
 
  
 /* Attempt to connect to MySQL database */

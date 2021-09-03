@@ -1,6 +1,10 @@
 <?php 
  define('dbconn', 'TRUE');
-include 'dbconn.php';
+include_once('dbconn.php');
+include_once('Search.php');
+$searchObj = new Search();
+$accept = $searchObj->viewSearch();
+
         
         $prquery = "SELECT * FROM `project`";
         $prj = $con->query($prquery);
@@ -41,6 +45,7 @@ include 'dbconn.php';
     <link rel="stylesheet" href="css/slicknav.css">
     <link rel="stylesheet" href="css/style.css">
     <!-- <link rel="stylesheet" href="css/responsive.css"> -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 </head>
 
 <body>
@@ -104,132 +109,33 @@ include 'dbconn.php';
                     <div class="blog_right_sidebar">
                         <aside  class="single_sidebar_widget search_widget">
                             <form style="display: inline-block;" action="update.php" method="post">
-                                <div class="form-group">
-                                    <div class="input-group mb-3">
-                                        <input type="text" name="Keyword" class="form-control" placeholder='Search Keyword'
-                                            onfocus="this.placeholder = ''"
-                                            onblur="this.placeholder = 'Search Keyword'" required>
-                                        <div class="input-group-append">
-                                            <button class="btn" type="button"><i class="ti-search"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
                             <div style="display: inline-block;  ">
                                 <h4>Choose where to search</h4>
                                 <label>Projects</label>
-                            <input type="radio" name="rad" value="prj">
+                            <input type="radio" name="rad" value="prj" id="project">
                             <label>Pictures</label>
-                            <input type="radio" name="rad" value="pic">
+                            <input type="radio" name="rad" value="pic" id="picture">
                             <label>Team mate</label>
-                            <input type="radio" name="rad" value="team">
+                            <input type="radio" name="rad" value="team" id="team">
                             </div>
-                            <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"
-                            type="submit" name="search">Search</button>
-                            </form>
+                                <div class="form-group">
+                                    <div class="input-group mb-3">
+                                        <input type="text" id="keyword" name="Keyword" class="form-control" placeholder='Search Keyword'
+                                            onfocus="this.placeholder = ''"
+                                            onblur="this.placeholder = 'Search Keyword'" style="width: 300px;" required>
+                                          
+                                        <div class="input-group-append">
+                                            <button class="btn"  onclick="Search()" type="button"><i class="ti-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                          
+                           </form>
                      
-                     <div class="col-lg-8 col-md-8">
-                        <?php if (isset($_POST['search'])) {
-                            $Keyword = $_POST['Keyword'];
-                            if (isset($_POST['rad'])) {
-                                
-                        
-                            if ($_POST['rad'] == 'prj') { 
-                                    $prquery = "SELECT * FROM `project` where name LIKE '%$Keyword%' OR category LIKE '%$Keyword%' OR client LIKE '%$Keyword%' OR date LIKE '%$Keyword%' OR description LIKE '%$Keyword%'";
-                                    $prjj = $con->query($prquery);
-                                    if ($prjj->num_rows == 0) { ?>
-                                    <br>
-                                    <blockquote class="generic-blockquote">Sorry, no Result Found for "<?php echo  $Keyword;?>" in Projects</blockquote>
-                                   <?php }
-                                    else{
-                                ?>
-                                 
-                        <h2 style="font-weight: bold;" class="mb-30">Results from Projects</h2>
-                    <table style="width:100%; border-spacing:0;">
-                          <tr><th>Title</th><th>Category</th><th>Client</th><th>Date</th><th>Link</th><th>Action</th></tr>
-                           <?php while ($project = $prjj->fetch_assoc()) {
-                                    ?>  
-                                    <tr>
-                                     
-                                      <td><?php echo $project['name'] ?></td>
-                                      <td><?php echo $project['category'] ?></td>
-                                      <td > <?php echo $project['client'] ?></td>
-                                      <td><?php echo $project['date'] ?></td>
-                                      <td><?php echo $project['link'] ?></td>
-                                      <td> 
-                                        <a href="edit.php?id=<?php echo $project['id']?>"><button class="btn btn-primary" >Edit</button></a>
-                                        <a href="delete.php?id=<?php echo $project['id']?>"><button class="btn btn-danger">Delete</button></a>
-                                      </td>
+                     <div class="col-lg-8 col-md-8" id="validator" name="Validator">
+                     
                                       
-                                      <?php  }?>
-                                  </tr>
-                      </table>
-
-                           <?php } }
-
-                            elseif ($_POST['rad'] == 'pic')  { 
-                                $prquery = "SELECT * FROM `pictures` where filename LIKE '%$Keyword%' OR path LIKE '%$Keyword%' OR belongs LIKE '%$Keyword%'";
-                                    $imgi = $con->query($prquery);
-                                    if ($imgi->num_rows == 0) { ?>
-                                    <br>
-                                    <blockquote class="generic-blockquote">Sorry, no Result Found for "<?php echo  $Keyword;?>" in Pictures</blockquote>
-                                   <?php }
-                                    else{
-                                        ?>
-
-                                <table style="width:100%; border-spacing:0;">
-                                <tr><th>Main</th><th>Title</th><th>Belongs</th><th>Path</th><th>Action</th></tr>
-                                       <?php while ($imgg = $imgi->fetch_assoc()) {
-                                        ?>  
-                                    <tr>
-                                         <td><?php echo $imgg['main'] ?></td>
-                                          <td><?php echo $imgg['filename'] ?></td>
-                                          <td><?php echo $imgg['belongs'] ?></td>
-                                          <td><?php echo $imgg['path'] ?></td>
-                                          
-                                          <td> 
-                                            <a href="edit.php?iid=<?php echo $imgg['id']?>"><button class="btn btn-primary" >Edit</button></a>
-                                       
-                                          </td>
-                                          <td><a href="delete.php?iid=<?php echo $imgg['id']?>"><button class="btn btn-danger">Delete</button></a></td>
-
-                                          
-                                          <?php  }?>
-                                    </tr>
-                   </table>
-                            <?php }}
-                            elseif ($_POST['rad'] == 'team')  { 
-                                $prquery = "SELECT * FROM `team` where name LIKE '%$Keyword%' OR role LIKE '%$Keyword%' OR telegram LIKE '%$Keyword%' OR instagram LIKE '%$Keyword%' OR linkedin LIKE '%$Keyword%'";
-                                $tmq = $con->query($prquery);
-                                if ($tmq->num_rows == 0) { ?>
-                                <br>
-                                <blockquote class="generic-blockquote">Sorry, no Result Found for "<?php echo  $Keyword;?>" in Teams</blockquote>
-                               <?php }
-                                else{
-                                ?> 
-                                        <table style="width:100%; border-spacing:0;">
-                    <tr><th>Name</th><th>Role</th><th>Telegram</th><th>linkedin</th><th>Instagram</th><th>Action</th></tr>
-                               <?php while ($nam = $tmq->fetch_assoc()) {
-                                        ?>  
-                    <tr>
-                     
-                          <td><?php echo $nam['name'] ?></td>
-                          <td><?php echo $nam['role'] ?></td>
-                          <td > <?php echo $nam['telegram'] ?></td>
-                          <td><?php echo $nam['linkedin'] ?></td>
-                          <td><?php echo $nam['instagram'] ?></td>
-                          <td> 
-                            <a href="edit.php?pd=<?php echo $nam['id']?>"><button class="btn btn-primary" >Edit</button></a>
-                            <a href="delete.php?pd=<?php echo $nam['id']?>"><button class="btn btn-danger">Delete</button></a>
-                          </td>
-                      
-                      <?php  }?>
-                  </tr>
-      </table>
-                          <?php  }
-                      }
-                        }
-                        }
-                        else{ }?>
+                    
            
                      </div>
                     </div>
@@ -240,7 +146,7 @@ include 'dbconn.php';
             <div class="col-lg-8 col-md-8">
                         <h2 style="font-weight: bold;" class="mb-30">Project Information</h2>
  <table style="width:100%; border-spacing:0;">
-          <tr><th>Title</th><th>Category</th><th>Client</th><th>Date</th><th>Link</th><th>Action</th></tr>
+          <tr><th>Title</th><th>Category</th><th>Client</th><th>Date</th><th>Link</th><th>Action</th><th></th></tr>
            <?php while ($project = $prj->fetch_assoc()) {
                     ?>  
                     <tr>
@@ -251,12 +157,13 @@ include 'dbconn.php';
                       <td><?php echo $project['date'] ?></td>
                       <td><?php echo $project['link'] ?></td>
                       <td> 
-                        <a href="edit.php?id=<?php echo $project['id']?>"><button class="btn btn-primary" >Edit</button></a>
+                        <a href="edit.php?id=<?php echo $project['id']?>"><button class="btn btn-primary" >Edit</button></a></td>
+                        <td>
                         <a href="delete.php?id=<?php echo $project['id']?>"><button class="btn btn-danger">Delete</button></a>
                       </td>
-                      
+                         </tr>
                       <?php  }?>
-                  </tr>
+               
       </table>
   </div>
                         <br>
@@ -268,7 +175,7 @@ include 'dbconn.php';
 
 
         <table style="width:100%; border-spacing:0;">
-                    <tr><th>Main</th><th>Title</th><th>Belongs</th><th>Path</th><th>Action</th></tr>
+                    <tr><th>Main</th><th>Title</th><th>Belongs</th><th>Path</th><th>Action</th><th></th></tr>
                            <?php while ($imgg = $img->fetch_assoc()) {
                             ?>  
                         <tr>
@@ -278,10 +185,10 @@ include 'dbconn.php';
                               <td><?php echo $imgg['path'] ?></td>
                               
                               <td> 
-                                <a href="edit.php?iid=<?php echo $imgg['id']?>"><button class="btn btn-primary" >Edit</button></a>
+                                <a href="edit.php?iid=<?php echo $imgg['id']?>"><button class="btn btn-primary" >Edit</button></a></td>
+                                <td>
                            
-                              </td>
-                              <td><a href="delete.php?iid=<?php echo $imgg['id']?>"><button class="btn btn-danger">Delete</button></a></td>
+                              <a href="delete.php?iid=<?php echo $imgg['id']?>"><button class="btn btn-danger">Delete</button></a></td>
 
                               
                               <?php  }?>
@@ -295,7 +202,7 @@ include 'dbconn.php';
 
                         <h2 style="font-weight: bold;" class="mb-30">Team mate Information</h2>
         <table style="width:100%; border-spacing:0;">
-                    <tr><th>Name</th><th>Role</th><th>Telegram</th><th>Linkedin</th><th>Instagram</th><th>Action</th></tr>
+                    <tr><th>Name</th><th>Role</th><th>Telegram</th><th>Linkedin</th><th>Instagram</th><th>Action</th><th></th></tr>
                                <?php while ($nam = $name->fetch_assoc()) {
                                         ?>  
                     <tr>
@@ -307,8 +214,8 @@ include 'dbconn.php';
                           <td><?php echo $nam['instagram'] ?></td>
                           <td> 
                             <a href="edit.php?pd=<?php echo $nam['id']?>"><button class="btn btn-primary" >Edit</button></a>
-                            </td>
-                            <td>
+                               </td>
+                               <td>
                             <a href="delete.php?pd=<?php echo $nam['id']?>"><button class="btn btn-danger">Delete</button></a>
                           </td>
                       
@@ -401,6 +308,8 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     <script src="js/mail-script.js"></script>
 
     <script src="js/main.js"></script>
+    <script src="javascript/Search.js"></script>
 </body>
 
 </html>
+

@@ -27,7 +27,7 @@ class Team
     public function fetchTeam()
     {
         $accept = array(); $arrayID = []; $arrayName = []; $arrayRole = []; $arrayTg = []; $arrayPhoto = []; $arrayInsta = []; $arrayLink = [];
-		$stmt = $this->con->query("SELECT id, name, role, telegram, photo, instagram, linkedin FROM team");
+		$stmt = $this->con->query("SELECT `id`, `name`, `role`, `telegram`, `photo`, `instagram`, `linkedin` FROM team");
 		while ($row = $stmt->fetch()) {
             array_push($arrayID, $row[0]);
 			array_push($arrayName, $row[1]);

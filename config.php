@@ -2,10 +2,10 @@
 
 class config{
 
-private $servername="sql206.epizy.com";
-private $username="epiz_25600350";
-private $password="uEnvNJf3Iv1M0AM";
-private $database="epiz_25600350_Portfolio";
+private $servername="localhost";
+private $username="root";
+private $password="";
+private $database="Port";
 
     public function getservername(){
     return $this->servername;

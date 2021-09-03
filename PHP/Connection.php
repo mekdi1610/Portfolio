@@ -18,7 +18,7 @@ class Connection
     public function connect()
     {
         try {
-            $dsn = "mysql:host=" . $this->serverName . ";dbname=" . $this->database . ";charset=" . $this->charset;
+            $dsn = "mysql:host=" . $this->serverName . ";dbname=" . $this->database;
             $PDO = new PDO($dsn, $this->userName, $this->password);
             $PDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             return $PDO;

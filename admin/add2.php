@@ -158,10 +158,10 @@ include 'dbconn.php';
         
           <div class="col-lg-8 col-md-8">
                         <h2 style="font-weight: bold;" class="mb-30">Picture Information</h2>
-                        <form enctype="multipart/form-data" action="upload.php" method="post">
+                        <form enctype="multipart/form-data">
                             <div class="mt-10">
                                
-                                <input type="file" name="data" placeholder="Picture"
+                                <input type="file" name="data" placeholder="Picture" id="data"
                                     onfocus="this.placeholder = ''" onblur="this.placeholder = 'Picture'" required
                                     class="single-input">
                             </div>
@@ -169,7 +169,7 @@ include 'dbconn.php';
                              <div class="input-group-icon mt-10">
                                 <div class="form-select" id="default-select"">
                                            choose to whom it belongs
-                                    <select name="belongs" >
+                                    <select name="belongs" id="belongs">
                                         <?php while ($prj = $project->fetch_assoc()) {  ?>
                                         <option value="<?php echo $prj['name']; ?>"><?php echo $prj['name']; ?></option>
                                         <?php } ?>
@@ -184,7 +184,7 @@ include 'dbconn.php';
                                  <div class="input-group-icon mt-10">
                                 <div class="form-select" id="default-select"">
                                            <span>main</span> 
-                                    <select name="main" >
+                                    <select name="main" id="main">
                                         <option value="1">1</option>
                                         <option value="0">0</option>
                                     </select>
@@ -194,8 +194,9 @@ include 'dbconn.php';
                             <br>
                               <div class="col-lg-12">
                                     <div class="submit_btn wow fadeInUp" data-wow-duration="1s" data-wow-delay=".3s">
-                                        <button class="boxed-btn3" type="submit" name="pictures">Add</button>
+                                        <button type="button" class="boxed-btn3" onclick="addPicture()">Add</button>
                                     </div>
+                                    <div id="validatorPicture"></div>
                                 </div>
                         </form>
                         

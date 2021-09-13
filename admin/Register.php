@@ -17,6 +17,19 @@ if (isset($_REQUEST["addProject"])) {
         $registerObj->addProject();	
 }
 
+//Picture
+//Project
+if (isset($_REQUEST["addPicture"])) {
+	$datasent = $_REQUEST["addPicture"];
+    
+        $accept = explode("_", $datasent);
+        $registerObj = new Register();
+        $registerObj->setPath($accept[0]);
+        $registerObj->setBelongs($accept[1]);
+        $registerObj->setMain($accept[2]);
+        $registerObj->addPicture();	
+}
+
 //Project
 if (isset($_REQUEST["addTeam"])) {
 	$datasent = $_REQUEST["addTeam"];
@@ -33,6 +46,7 @@ if (isset($_REQUEST["addTeam"])) {
 class Register
 {
     private $pname, $pcatagory, $pclient, $pdate, $pdescription, $plink;
+    private $path, $belongs, $main;
     private $tname, $trole, $ttelegram, $tlinkedin, $ttwitter;
     
     public function __construct()
@@ -72,6 +86,20 @@ class Register
         $this->plink = $link; 
 	}
     ////
+    public function setPath($path)
+	{
+		$this->path = $path;
+        
+	}
+    public function setBelongs($belongs)
+	{
+        $this->belongs = $belongs;  
+	}
+    public function setMain($main)
+	{
+        $this->main = $main;  
+	}
+    ////
     public function setTName($tname)
 	{
         $this->tname = $tname;  
@@ -105,15 +133,48 @@ class Register
      }
      public function addPicture()
      {
-         $sql = "INSERT INTO `project`(`name`, `category`, `client`, `date`, `description`, `link`) VALUES(?,?,?,?,?,?)";
-         $result = $this->con->prepare($sql)->execute([$this->pname, $this->pcatagory , $this->pclient , $this->pdate , $this->pdescription , $this->plink]);
-         if ($result) {
-             echo "Successful";
-         }
-         else{
-             echo "Not inserted";
-         }
-      }
+
+        $uploadDir = "./uploads/";
+        $fileName = $this->path; //The actual filename
+        $dir = $uploadDir . $fileName; //The FilePath
+        $stmt = $this->con->prepare("SELECT `project`.`id`, `project`.`category` from `project` where `name` = ?");
+        $stmt->execute([$this->belongs]);
+        while ($row = $stmt->fetch()) {              
+      
+
+                        $Proid=$row['id'];
+                        $Cata=$row['category'];
+        
+                        
+   
+                        if ($this->main == '1') {
+                            $psql= "UPDATE `pictures` SET `main` = '0' WHERE `pictures`.`belongs` = ?";
+                            $resultUpdate = $this->con->prepare($psql)->execute([$this->belongs]);
+                            $sql="INSERT INTO `pictures` (`filename`, `path`, `belongs`, `Catagory`, `ProID`, `main`) VALUES (?,?,?,?,?,?)";
+                            $resultAdd = $this->con->prepare($sql)->execute([$fileName, $dir, $this->belongs, $Cata, $Proid, $this->main]);
+                            
+                            if ($resultAdd) {
+                                echo "Successful";
+                            }
+                            else{
+                                echo "Not inserted";
+                            }
+                           
+                     
+                        }
+                            else{
+                                $sql="INSERT INTO `pictures` (`filename`, `path`, `belongs`, `Catagory`, `ProID`, `main`) VALUES (?,?,?,?,?,?)";
+                                $resultAdd = $this->con->prepare($psql)->execute([$fileName, $dir, $this->belongs, $Cata, $Proid, $this->main]);
+                                if ($resultAdd) {
+                                    echo "Successful";
+                                }
+                                else{
+                                    echo "Not inserted";
+                                }
+                            }
+                        }
+                   }
+   
       public function addTeam()
       {
           

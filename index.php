@@ -41,6 +41,9 @@ $proID = $accepts[5];
 	<!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	<meta name="description" content="">
+	<link rel="stylesheet" href="/table-sortable-master/dist/bootstrap.min.css">
+    <link rel="stylesheet" href="/table-sortable-master/dist/styles.css">
+    <script src="/table-sortable-master/dist/jquery.min.js"></script>
 	
 	<!-- Google Fonts -->
 	<link href='//fonts.googleapis.com/css?family=DM+Sans:400,400i,500,700' rel='stylesheet'>
@@ -766,16 +769,128 @@ $proID = $accepts[5];
 		</div> <!-- end contact form -->
 
 
-		<div id="back-to-top">
-			<a href="#top"><i class="ui-arrow-up"></i></a>
-		</div>
 
 	</main> <!-- end main wrapper -->
 	
-
+	
 	<!-- jQuery Scripts -->
 	<script src="js/jquery.min.js"></script>
 	<script src="js/scripts.min.js"></script>
+	<script>
+	
+	//To display all the values from database on the update dialog box
+      $(document).on("click", ".modal-trigger", function() {
+        var ID = $(this).data('id');
+        var title = $(this).data('title');
+        var description = $(this).data('description');
+        
+        $(".modal-content #ID").val(ID);
+        $("#title").val(title);
+        $("#description").val(description);
+        //document.getElementById("photo").src=photo;
+      });
+	  function openModal2() {
+    var modal = document.getElementById("modal2");
+    modal.style.display = "block";
+}
+function makeReq(){
+	var req = document.getElementById("request");
+	req.style.display = "block";
+}
+function getInfoWeb(){
+	var app = document.getElementById("webapp");
+	var about = document.getElementById("about");
+	app.style.display = "block";
+	about.style.display = "block";
+}
+
+function getInfoMobile(){
+	var app = document.getElementById("mobileapp");
+	var about = document.getElementById("about");
+	app.style.display = "block";
+	about.style.display = "block";
+}
+function getInfoDesktop(){
+	var app3 = document.getElementById("desktopapp");
+
+	app3.style.display = "block";
+
+}
+function getReq(){
+	//var about = document.getElementById("about");
+	var requirment = document.getElementById("req");
+		//about.style.display = "none";
+		requirment.style.display = "block";
+}
+
+function getBugdet(){
+	var bugdet = document.getElementById("budget");
+	var requirment = document.getElementById("req");
+	bugdet.style.display = "block";
+	//requirment.style.display = "none";
+}
+function getTime(){
+	var bugdet = document.getElementById("budget");
+	var time = document.getElementById("time");
+	time.style.display = "block";
+	//bugdet.style.display = "none";
+}
+
+	  </script>
+
+<script src="/table-sortable-master/dist/data.js"></script>
+    <script src="/table-sortable-master/dist/table-sortable.js"></script>
+    <script>
+        var table = $('#root').tableSortable({
+            data: data,
+            columns: columns,
+            searchField: '#searchField',
+            responsive: {
+                1100: {
+                    columns: {
+                        formCode: 'Form Code',
+                        formName: 'Form Name',
+                    },
+                },
+            },
+            rowsPerPage: 5,
+            pagination: true,
+            tableWillMount: function() {
+                console.log('table will mount')
+            },
+            tableDidMount: function() {
+                console.log('table did mount')
+            },
+            tableWillUpdate: function() {console.log('table will update')},
+            tableDidUpdate: function() {console.log('table did update')},
+            tableWillUnmount: function() {console.log('table will unmount')},
+            tableDidUnmount: function() {console.log('table did unmount')},
+            onPaginationChange: function(nextPage, setPage) {
+                setPage(nextPage);
+            }
+        });
+
+        $('#changeRows').on('change', function() {
+            table.updateRowsPerPage(parseInt($(this).val(), 10));
+        })
+
+        $('#rerender').click(function() {
+            table.refresh(true);
+        })
+
+        $('#distory').click(function() {
+            table.distroy();
+        })
+
+        $('#refresh').click(function() {
+            table.refresh();
+        })
+
+        $('#setPage2').click(function() {
+            table.setPage(1);
+        })
+    </script>
+
 
 	<!-- Revolution Slider Addons -->
 
@@ -798,5 +913,6 @@ $proID = $accepts[5];
 <script src='https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.js'></script>
 <script  src="js/script.js"></script>
 <script  src="js/coustomscript.js"></script>		
+<script type="text/javascript">!function(t,e){t.artibotApi={l:[],t:[],on:function(){this.l.push(arguments)},trigger:function(){this.t.push(arguments)}};var a=!1,i=e.createElement("script");i.async=!0,i.type="text/javascript",i.src="https://app.artibot.ai/loader.js",e.getElementsByTagName("head").item(0).appendChild(i),i.onreadystatechange=i.onload=function(){if(!(a||this.readyState&&"loaded"!=this.readyState&&"complete"!=this.readyState)){new window.ArtiBot({i:"564c1a0e-c7aa-4a21-8e47-7663744b6a13"});a=!0}}}(window,document);</script>
 </body>
 </html>

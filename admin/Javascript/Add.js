@@ -1,3 +1,4 @@
+
 //Check if the member exist or not based on fullname and date of birth
 function addProject() {
     var name = document.getElementById("name").value;
@@ -26,6 +27,54 @@ function addProject() {
         xmlhttp.open("GET", "../admin/Register.php?addProject=" + toAdd, true);
         xmlhttp.send();
     }
+}
+
+//Check if the member exist or not based on fullname and date of birth
+function addPicture() {
+    var value = document.getElementById("belongs");
+    var belongs = value.options[value.selectedIndex].value;
+    alert(belongs);
+    var value2 = document.getElementById("main");
+    var main = value2.options[value2.selectedIndex].value;
+    var pic = document.getElementById("data").value;
+    alert(pic);
+    var picArray = pic.split("\\");
+    var path = picArray[2];
+
+    var toAdd = path + '_' + belongs + '_' + main;
+    if (toAdd.length == 0) {
+        document.getElementById("validatorPicture").innerHTML = "";
+        return;
+    } else {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = async function() {
+            if (this.readyState == 4 && this.status == 200) {
+                //Receive result from Member.php
+               var validator= document.getElementById("validatorPicture").innerHTML = this.responseText;
+                if(validator == "Successful"){
+                    const fs = require('fs').promises;
+                    async function openFile() {
+                        try {
+                            var pathToInsert = "/upload/" + path;
+                            await fs.writeFile(pathToInsert, imagedata, 'binary', function(err) { 
+                            console.log("The file was saved!"); 
+                    
+                        });  
+                    } catch (error) {
+                          console.error(`Got an error trying to write to a file: ${error.message}`);
+                        }
+                      }
+                      await openFile();
+
+                   
+                }
+            }
+        };
+        //Send phoneNo and type to Contributor.php
+        xmlhttp.open("GET", "../admin/Register.php?addPicture=" + toAdd, true);
+        xmlhttp.send();
+    }
+ 
 }
 
 //Check if the member exist or not based on fullname and date of birth

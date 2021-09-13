@@ -25,6 +25,9 @@ $accept = $searchObj->viewSearch();
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>StartUp</title>
+    <link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -46,14 +49,18 @@ $accept = $searchObj->viewSearch();
     <link rel="stylesheet" href="css/style.css">
     <!-- <link rel="stylesheet" href="css/responsive.css"> -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <style>
+        th, td{
+            font-size: medium;
+        }
+        .btn{
+            font-size: medium;
+        }
+        </style>
 </head>
 
 <body>
-    <!--[if lte IE 9]>
-            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
-        <![endif]-->
 
-    <!-- header-start -->
     <header>
         <div class="header-area ">
             <div id="sticky-header" class="main-header-area">
@@ -122,7 +129,7 @@ $accept = $searchObj->viewSearch();
                                     <div class="input-group mb-3">
                                         <input type="text" id="keyword" name="Keyword" class="form-control" placeholder='Search Keyword'
                                             onfocus="this.placeholder = ''"
-                                            onblur="this.placeholder = 'Search Keyword'" style="width: 300px;" required>
+                                            onblur="this.placeholder = 'Search Keyword'" style="width: 300px;" required oninput="Search()">
                                           
                                         <div class="input-group-append">
                                             <button class="btn"  onclick="Search()" type="button"><i class="ti-search"></i></button>
@@ -143,9 +150,10 @@ $accept = $searchObj->viewSearch();
     <!-- portfolio_image_area  -->
     <div class="portfolio_image_area">
         <div class="container">
-            <div class="col-lg-8 col-md-8">
+            <div class="col-lg-12 col-md-12">
                         <h2 style="font-weight: bold;" class="mb-30">Project Information</h2>
- <table style="width:100%; border-spacing:0;">
+                     
+<table id="example" class="table table-striped">
           <tr><th>Title</th><th>Category</th><th>Client</th><th>Date</th><th>Link</th><th>Action</th><th></th></tr>
            <?php while ($project = $prj->fetch_assoc()) {
                     ?>  
@@ -170,11 +178,12 @@ $accept = $searchObj->viewSearch();
                         <br>
 
 
-                    <div class="col-lg-8 col-md-8">
+                    <div class="col-lg-12 col-md-12">
                         <h2 style="font-weight: bold;" class="mb-30">Picture Information</h2>
 
 
-        <table style="width:100%; border-spacing:0;">
+                             
+<table id="example2" class="table table-striped">
                     <tr><th>Main</th><th>Title</th><th>Belongs</th><th>Path</th><th>Action</th><th></th></tr>
                            <?php while ($imgg = $img->fetch_assoc()) {
                             ?>  
@@ -198,10 +207,11 @@ $accept = $searchObj->viewSearch();
                         <br>
                         <br>
             
-                     <div class="col-lg-8 col-md-8">
+                     <div class="col-lg-12 col-md-12">
 
                         <h2 style="font-weight: bold;" class="mb-30">Team mate Information</h2>
-        <table style="width:100%; border-spacing:0;">
+                             
+<table id="example3" class="table table-striped">
                     <tr><th>Name</th><th>Role</th><th>Telegram</th><th>Linkedin</th><th>Instagram</th><th>Action</th><th></th></tr>
                                <?php while ($nam = $name->fetch_assoc()) {
                                         ?>  
@@ -280,7 +290,13 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     </footer>
     <!--/ footer end  -->
 
-    <!-- JS here -->
+ 
+    </div>
+    <script type="text/javascript">
+
+
+
+</script>
     <script src="js/vendor/modernizr-3.5.0.min.js"></script>
     <script src="js/vendor/jquery-1.12.4.min.js"></script>
     <script src="js/popper.min.js"></script>
@@ -309,6 +325,35 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 
     <script src="js/main.js"></script>
     <script src="javascript/Search.js"></script>
+       <!-- JS here -->
+       <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="jquery.simplePagination.js"></script>
+<script>
+		$(function() {
+			$("#example").simplePagination({
+				previousButtonClass: "btn btn-danger",
+				nextButtonClass: "btn btn-danger"
+			});
+
+
+		});
+        $(function() {
+			$("#example2").simplePagination({
+				previousButtonClass: "btn btn-danger",
+				nextButtonClass: "btn btn-danger"
+			});
+
+
+		});
+        $(function() {
+			$("#example3").simplePagination({
+				previousButtonClass: "btn btn-danger",
+				nextButtonClass: "btn btn-danger"
+			});
+
+
+		});
+	</script>
 </body>
 
 </html>
